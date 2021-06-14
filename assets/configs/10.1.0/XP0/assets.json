@@ -1,0 +1,15 @@
+{
+  "sitecore": [
+    {
+      "id": "xp",
+      "name": "Sitecore Experience Platform",
+      "fileName": "Sitecore 10.1.0 rev. 005207 (WDP XP0 packages).zip",
+      "url": "https://dev.sitecore.net/~/media/88666D3532F24973939C1CC140E12A27.ashx",
+      "extract": true,
+      "install": true,
+      "source": "sitecore",
+	  "databases": ""
+    }
+  ],
+  "modules": []
+}

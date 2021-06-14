@@ -1,0 +1,3 @@
+java='http://download.oracle.com/otn-pub/java/jdk/$JDK_FULL_VER/jdk-$JDK_VER-windows-x64.exe'
+nssm='http://nssm.cc/release/nssm-$nssmVersion.zip'
+solr='http://archive.apache.org/dist/lucene/solr/$solrVersion/solr-$solrVersion.zip'

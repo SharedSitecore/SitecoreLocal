@@ -1,0 +1,52 @@
+{
+  "Parameters": {
+    "Package": {
+      "Type": "string",
+      "DefaultValue": "",
+      "Description": "The path to the Web Deploy package to deploy."
+    },
+    "SiteName": {
+      "Type": "string",
+      "DefaultValue": "Sitecore",
+      "Description": "The name of the site to be deployed."
+    },
+    "ConfigurationOverrideSource": {
+      "Type": "string",
+      "DefaultValue": "",
+      "Description": "Path of the new Bootloader configuration file"
+    },
+    "ConfigurationOverrideDestination": {
+      "Type": "string",
+      "DefaultValue": "C:\\inetpub\\wwwroot\\habitathome.dev.local\\App_Data\\tools\\InstallJob",
+      "Description": "The folder where Bootloader InstallJob tool is installed."
+    }
+  },
+  "Tasks": {
+    "InstallBootloaderWDP": {
+      "Type": "WebDeploy",
+      "Params": {
+        "Verb": "Sync",
+        "Arguments": {
+          "Source": {
+            "Package": "[resolvepath(parameter('Package'))]"
+          },
+          "Dest": "Auto",
+          "EnableRule": "DoNotDeleteRule",
+          "SetParam": [
+            {
+              "Name": "Application Path",
+              "Value": "[parameter('SiteName')]"
+            }
+          ]
+        }
+      }
+    },
+    "OverwriteBootloaderConfig": {
+      "Type": "Copy",
+      "Params": {
+        "Source": "[parameter('ConfigurationOverrideSource')]",
+        "Destination": "[parameter('ConfigurationOverrideDestination')]"
+      }
+    }
+  }
+}

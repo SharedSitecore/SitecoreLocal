@@ -1,0 +1,97 @@
+{
+    "assets":  {
+                   "root":  "\\repos\\docker-images\\build\\packages",
+                   "configurationRoot":  "\\repos\\docker-images\\build\\packages\\configs\\10.1.0\\XP0",
+                   "packageRepository":  "\\repos\\docker-images\\build\\packages",
+                   "psRepository":  "https://sitecore.myget.org/F/sc-powershell/api/v2/",
+                   "psRepositoryName":  "SitecoreGallery",
+                   "licenseFilePath":  "\\repos\\docker-images\\build\\packages\\license.xml",
+                   "certificatesPath":  "\\repos\\docker-images\\build\\packages\\certs",
+                   "installerVersion":  "2.3.0",
+                   "sitecoreVersion":  "10.1.0 rev. 005207",
+                   "identityServerVersion":  "5.1.0 rev. 00290",
+                   "sitecoreazuretoolkit":  "\\repos\\docker-images\\build\\packages\\Shared\\sat",
+                   "sharedUtilitiesRoot":  "\\repos\\docker-images\\build\\packages\\Shared"
+               },
+    "settings":  {
+                     "site":  {
+                                  "prefix":  "1010.dev",
+                                  "suffix":  ".local",
+                                  "webRoot":  "C:\\inetpub\\wwwroot",
+                                  "hostName":  "1010.dev.local",
+                                  "addSiteBindingWithSSLPath":  "@@site.addSiteBindingWithSSLPath@@",
+                                  "additionalBindings":  [
+
+                                                         ]
+                              },
+                     "sql":  {
+                                 "server":  ".",
+                                 "adminUser":  "sa",
+                                 "adminPassword":  "Str0NgPA33w0rd!!",
+                                 "userPassword":  "Str0NgPA33w0rd!!",
+                                 "coreUser":  "coreuser",
+                                 "corePassword":  "Str0NgPA33w0rd!!",
+                                 "masterUser":  "masteruser",
+                                 "masterPassword":  "Str0NgPA33w0rd!!",
+                                 "webUser":  "webuser",
+                                 "webPassword":  "Str0NgPA33w0rd!!",
+                                 "collectionUser":  "collectionuser",
+                                 "collectionPassword":  "Str0NgPA33w0rd!!",
+                                 "reportingUser":  "reportinguser",
+                                 "reportingPassword":  "Str0NgPA33w0rd!!",
+                                 "processingEngineUser":  "processingengineuser",
+                                 "processingEnginePassword":  "Str0NgPA33w0rd!!",
+                                 "processingPoolsUser":  "poolsuser",
+                                 "processingPoolsPassword":  "Str0NgPA33w0rd!!",
+                                 "processingTasksUser":  "tasksuser",
+                                 "processingTasksPassword":  "Str0NgPA33w0rd!!",
+                                 "referenceDataUser":  "referencedatauser",
+                                 "referenceDataPassword":  "Str0NgPA33w0rd!!",
+                                 "securityUser":  "securityuser",
+                                 "securityPassword":  "@@sql.referenceDataPassword@@",
+                                 "marketingAutomationUser":  "marketingautomationuser",
+                                 "marketingAutomationPassword":  "Str0NgPA33w0rd!!",
+                                 "formsUser":  "formsuser",
+                                 "formsPassword":  "Str0NgPA33w0rd!!",
+                                 "exmMasterUser":  "exmmasteruser",
+                                 "exmMasterPassword":  "Str0NgPA33w0rd!!",
+                                 "messagingUser":  "messaginguser",
+                                 "messagingPassword":  "Str0NgPA33w0rd!!",
+                                 "minimumVersion":  "13.0.4001"
+                             },
+                     "xConnect":  {
+                                      "configurationPath":  "@@xConnect.configurationPath@@",
+                                      "certificateConfigurationPath":  "@@xConnect.certificateConfigurationPath@@",
+                                      "solrConfigurationPath":  "@@xConnect.solrConfigurationPath@@",
+                                      "packagePath":  "\\repos\\docker-images\\build\\packages\\Sitecore 10.1.0 rev. 005207 (OnPrem)_xp0xconnect.scwdp.zip",
+                                      "siteName":  "1010.dev-xconnect",
+                                      "siteRoot":  "C:\\inetpub\\wwwroot\\101.dev-xconnect"
+                                  },
+                     "sitecore":  {
+                                      "solrConfigurationPath":  "@@sitecore.solrConfigurationPath@@",
+                                      "singleDeveloperConfigurationPath":  "@@sitecore.singleDeveloperConfigurationPath@@",
+                                      "sslConfigurationPath":  "\\repos\\docker-images\\build\\packages\\configs\\10.1.0\\XP0\\certificates\\sitecore-ssl.json",
+                                      "packagePath":  "\\repos\\docker-images\\build\\packages\\Sitecore 10.1.0 rev. 005207 (OnPrem)_single.scwdp.zip",
+                                      "adminPassword":  "b",
+                                      "exmCryptographicKey":  "0x0000000000000000000000000000000000000000000000000000000000000000",
+                                      "exmAuthenticationKey":  "0x0000000000000000000000000000000000000000000000000000000000000000",
+                                      "telerikEncryptionKey":  "PutYourCustomEncryptionKeyHereFrom32To256CharactersLong",
+                                      "rootCertificateName":  "1010.dev.local"
+                                  },
+                     "identityServer":  {
+                                            "configurationPath":  "@@identityServer.ConfigurationPath@@",
+                                            "packagePath":  "\\repos\\docker-images\\build\\packages\\Sitecore.IdentityServer 5.1.0 rev. 00290 (OnPrem)_identityserver.scwdp.zip",
+                                            "name":  "101.dev-identityserver",
+                                            "url":  "https://1010.dev-identityserver",
+                                            "clientSecret":  "@@identityServer.clientSecret@@"
+                                        },
+                     "solr":  {
+                                  "url":  "https://localhost:8840/solr",
+                                  "root":  "c:\\solr\\solr-8.4.0",
+                                  "serviceName":  "Solr-8.4.0"
+                              }
+                 },
+    "modules":  [
+
+                ]
+}

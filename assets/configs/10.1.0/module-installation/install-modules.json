@@ -1,0 +1,152 @@
+{
+    "Parameters":  {
+                       "SiteName":  {
+                                        "Type":  "string",
+                                        "DefaultValue":  "",
+                                        "Description":  "The name of the site to be deployed."
+                                    },
+                       "DatabasePrefix":  {
+                                              "Type":  "string",
+                                              "DefaultValue":  "",
+                                              "Description":  "SQL DB Prefix"
+                                          },
+                       "SqlAdminUser":  {
+                                            "Type":  "string",
+                                            "DefaultValue":  "sa",
+                                            "Description":  "The Sql admin user account to use when installing databases."
+                                        },
+                       "SqlAdminPassword":  {
+                                                "Type":  "string",
+                                                "DefaultValue":  "",
+                                                "Description":  "The Sql admin password to use when installing databases."
+                                            },
+                       "SqlServer":  {
+                                         "Type":  "string",
+                                         "DefaultValue":  "",
+                                         "Description":  "The Sql Server where databases will be installed."
+                                     },
+                       "xp:DatabasePrefix":  {
+                                                 "Type":  "string",
+                                                 "Reference":  "DatabasePrefix"
+                                             },
+                       "xp:LoginSession":  {
+                                               "Type":  "Microsoft.PowerShell.Commands.WebRequestSession",
+                                               "Reference":  "LoginSession"
+                                           },
+                       "xp:ModuleConfiguration":  {
+                                                      "DefaultValue":  {
+                                                                           "id":  "xp",
+                                                                           "name":  "Sitecore Experience Platform",
+                                                                           "source":  "sitecore",
+                                                                           "install":  true,
+                                                                           "extract":  true,
+                                                                           "databases":  "",
+                                                                           "fileName":  "d:\\repos\\docker-images\\build\\packages\\Sitecore 10.1.0 rev. 005207 (WDP XP0 packages).zip",
+                                                                           "url":  "https://sitecoredev.azureedge.net/~/media/E875A311BB6A487782F5F75129C94E05.ashx?date=20210222T220247"
+                                                                       },
+                                                      "Type":  "psobject"
+                                                  },
+                       "xp:SiteName":  {
+                                           "Type":  "string",
+                                           "Reference":  "SiteName"
+                                       },
+                       "xp:SqlAdminPassword":  {
+                                                   "Type":  "string",
+                                                   "Reference":  "SqlAdminPassword"
+                                               },
+                       "xp:SqlAdminUser":  {
+                                               "Type":  "string",
+                                               "Reference":  "SqlAdminUser"
+                                           },
+                       "xp:SqlServer":  {
+                                            "Type":  "string",
+                                            "Reference":  "SqlServer"
+                                        },
+                       "spe:DatabasePrefix":  {
+                                                  "Type":  "string",
+                                                  "Reference":  "DatabasePrefix"
+                                              },
+                       "spe:LoginSession":  {
+                                                "Type":  "Microsoft.PowerShell.Commands.WebRequestSession",
+                                                "Reference":  "LoginSession"
+                                            },
+                       "spe:ModuleConfiguration":  {
+                                                       "DefaultValue":  {
+                                                                            "id":  "spe",
+                                                                            "name":  "Sitecore PowerShell Extensions",
+                                                                            "fileName":  "d:\\repos\\docker-images\\build\\packages\\modules\\Sitecore.PowerShell.Extensions-6.2.scwdp.zip",
+                                                                            "url": "https://github.com/SitecorePowerShell/Console/releases/download/6.2/Sitecore.PowerShell.Extensions-6.2.scwdp.zip",
+                                                                            "install":  true,
+                                                                            "convert":  false,
+                                                                            "databases":  "master,core"
+                                                                        },
+                                                       "Type":  "psobject"
+                                                   },
+                       "spe:SiteName":  {
+                                            "Type":  "string",
+                                            "Reference":  "SiteName"
+                                        },
+                       "spe:SqlAdminPassword":  {
+                                                    "Type":  "string",
+                                                    "Reference":  "SqlAdminPassword"
+                                                },
+                       "spe:SqlAdminUser":  {
+                                                "Type":  "string",
+                                                "Reference":  "SqlAdminUser"
+                                            },
+                       "spe:SqlServer":  {
+                                             "Type":  "string",
+                                             "Reference":  "SqlServer"
+                                         },
+                       "shs:DatabasePrefix":  {
+                                                  "Type":  "string",
+                                                  "Reference":  "DatabasePrefix"
+                                              },
+                       "shs:LoginSession":  {
+                                                "Type":  "Microsoft.PowerShell.Commands.WebRequestSession",
+                                                "Reference":  "LoginSession"
+                                            },
+                       "shs:ModuleConfiguration":  {
+                                                       "DefaultValue":  {
+                                                                            "id":  "shs",
+                                                                            "name":  "Sitecore Headless Services",
+                                                                            "fileName":  "d:\\repos\\docker-images\\build\\packages\\modules\\Sitecore Headless Services Server for Sitecore 10.1.0 XP 16.0.0 rev. 210223.zip",
+                                                                            "url":  "https://sitecoredev.azureedge.net/~/media/9BACE47CDC9B4057AFDC55460A8BE3E3.ashx?date=20210224T204210",
+                                                                            "install":  true,
+                                                                            "convert":  false,
+                                                                            "databases":  "master,core"
+                                                                        },
+                                                       "Type":  "psobject"
+                                                   },
+                       "shs:SiteName":  {
+                                            "Type":  "string",
+                                            "Reference":  "SiteName"
+                                        },
+                       "shs:SqlAdminPassword":  {
+                                                    "Type":  "string",
+                                                    "Reference":  "SqlAdminPassword"
+                                                },
+                       "shs:SqlAdminUser":  {
+                                                "Type":  "string",
+                                                "Reference":  "SqlAdminUser"
+                                            },
+                       "shs:SqlServer":  {
+                                             "Type":  "string",
+                                             "Reference":  "SqlServer"
+                                         }
+                   },
+    "Variables":  {
+
+                  },
+    "Includes":  {
+                     "xp":  {
+                                "Source":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\Shared\\assets\\configuration\\download-and-install-module.json"
+                            },
+                     "spe":  {
+                                 "Source":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\Shared\\assets\\configuration\\download-and-install-module.json"
+                             },
+                     "shs":  {
+                                 "Source":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\Shared\\assets\\configuration\\download-and-install-module.json"
+                             }
+                 }
+}

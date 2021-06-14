@@ -1,0 +1,32 @@
+{
+    "Parameters": {
+        "SitecoreAzureToolkitUri": {
+            "Type": "string"
+        },
+        "SitecoreAzureToolkitFilename": {
+            "Type": "string"
+        },
+        "Destination": {
+            "Type": "string"
+        },
+        "InstallationPath":{
+            "Type":"string"
+        }
+    },
+    "Tasks": {
+        "DownloadSitecoreAzureToolkit": {
+            "Type": "DownloadFile",
+            "Params": {
+                "SourceUri": "[parameter('SitecoreAzureToolkitUri')]",
+                "DestinationPath": "[parameter('Destination')]"
+            }
+        },
+        "ExtractSitecoreAzureToolkit": {
+            "Type":"Unpack",
+            "Params":{
+                "Source":"[parameter('Destination')]",
+                "Destination":"[parameter('InstallationPath')]"
+            }
+        }
+    }
+}

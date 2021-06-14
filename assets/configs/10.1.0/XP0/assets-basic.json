@@ -1,0 +1,44 @@
+{
+  "sitecore": [
+    {
+      "id": "xp",
+      "name": "Sitecore Experience Platform",
+      "fileName": "Sitecore 10.1.0 rev. 005207 (WDP XP0 packages).zip",
+      "url": "https://dev.sitecore.net/~/media/88666D3532F24973939C1CC140E12A27.ashx",
+      "install": true,
+      "extract": true,
+      "source": "sitecore",
+	  "databases": ""
+    }
+  ],
+  "modules": [
+      {
+      "id": "sat",
+      "name": "Sitecore Azure Toolkit",
+      "fileName": "Sitecore Azure Toolkit 2.4.0-r02514.1001.zip",
+      "url": "https://dev.sitecore.net/~/media/B627BFA7070B40AD854A0FF08719381D.ashx",
+      "install": true,
+      "convert": false,
+      "source": "sitecore",
+	  "databases": ""
+    },
+    {
+      "id": "spe",
+      "name": "Sitecore PowerShell Extensions",
+      "fileName": "Sitecore.PowerShell.Extensions-6.0.scwdp.zip",
+      "url": "https://dev.sitecore.net/~/media/A6BD2B77DEDD44F1BB8E8ED575D24D12.ashx",
+      "install": true,
+      "convert": false,
+      "databases": "master,core"
+    },
+    {
+      "id": "jss",
+      "name": "JavaScript Services",
+      "fileName": "Sitecore JavaScript Services Server for Sitecore 9.2 XP 12.0.0 rev. 190522.scwdp.zip",
+      "url": "https://dev.sitecore.net/~/media/1D5D53DE1F4B43E8B3D70E0D0EE40A5D.ashx",
+      "install": true,
+      "convert": false,
+      "databases": "master,core"
+    }
+  ]
+}

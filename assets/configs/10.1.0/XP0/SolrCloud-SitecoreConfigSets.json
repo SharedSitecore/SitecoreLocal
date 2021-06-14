@@ -1,0 +1,205 @@
+{
+    "Parameters": {
+        "SolrDomain": {
+            "Type": "String",
+            "Description" : "The url/domain for Solr, used to create Self-Signed SSL Certificate",
+            "DefaultValue" : "localhost"
+        },
+        "ZookeeperPort": {
+            "Type": "Int",
+            "Description": "The Zookeeper port.",
+            "DefaultValue": 9983
+        },
+        "CorePrefix": {
+            "Type": "String",
+            "DefaultValue": "sitecore",
+            "Description": "The prefix for each of the created indexes."
+        },
+        "SolrInstallRoot": {
+            "Type": "String",
+            "Description": "The root path Solr was installed to.",
+            "DefaultValue": "C:\\"
+        },
+        "DefaultConfigSetName": {
+            "Type": "String",
+            "Description": "The default config set name which will be downloaded and reapplied",
+            "DefaultValue": "_default"
+        },
+        "TempLocation": {
+            "Type": "String",
+            "Description": "Alternative location to save downloads. If left on the default $Env:Temp will be used.",
+            "DefaultValue": "",
+            "Validate": "[TestPath(variable('Temp.Location'))]"
+        }
+    },
+    "Variables": {
+        "Zookeeper.Host": "[concat(parameter('SolrDomain'),':',parameter('ZookeeperPort'))]",
+
+        "Solr.Install.Path": "[parameter('SolrInstallRoot')]",
+
+        "Temp.Location" : "[if(variable('Test.Temp.Location'),Environment('Temp'),parameter('TempLocation'))]",
+        "Test.Temp.Location" : "[equal(parameter('TempLocation'),'')]",
+
+        "SitecoreContentConfigSetName": "[concat(parameter('CorePrefix'), '_content_config')]",
+        "SitecoreXdbConfigSetName": "[concat(parameter('CorePrefix'), '_xdb_config')]",
+        "SitecoreXdbRebuildConfigSetName": "[concat(parameter('CorePrefix'), '_xdb_rebuild_config')]",
+
+        "Temp.Content.Config.Location" : "[JoinPath(variable('Temp.Location'),variable('SitecoreContentConfigSetName'))]",
+        "Temp.Xdb.Config.Location" : "[JoinPath(variable('Temp.Location'),variable('SitecoreXdbConfigSetName'))]",
+
+        "Solr.Bin.Location": "[JoinPath(variable('Solr.Install.Path'),'bin')]",
+        "Solr.CMD.Location" : "[JoinPath(variable('Solr.Bin.Location'),'Solr.cmd')]",
+        "Content.Config.Location": "[joinpath(variable('Temp.Content.Config.Location'), 'conf')]",
+
+        "Solr.SchemaFileName": "managed-schema",
+        "Solr.Xpath.SchemaRoot": "//schema",
+        "Solr.Xpath.UniqueKey": "[concat(variable('Solr.Xpath.SchemaRoot'), '/uniqueKey')]",
+        "Solr.UniqueField" : "_uniqueid",
+        "Solr.UniqueField.Attributes": {
+            "name" : "[variable('Solr.UniqueField')]",
+            "type": "string",
+            "indexed": "true",
+            "required": "true",
+            "stored": "true"
+        }
+    },
+    "Register":{
+        "Tasks":{
+            "StartProcess" : "Start-Process",
+            "AddContent" : "Add-Content"
+        },
+        "ConfigFunction":{
+            "TestPath": "Test-Path"
+        }
+    },
+    "Tasks": {
+        "CreateTempContentConfigFolder":{
+            "Description": "Ensures the temp core folder is available.",
+            "Type": "EnsurePath",
+            "Params": {
+                "Exists": "[variable('Temp.Content.Config.Location')]"
+            }
+        },
+        "CreateTempXdbConfigFolder":{
+            "Description": "Ensures the temp core folder is available.",
+            "Type": "EnsurePath",
+            "Params": {
+                "Exists": "[variable('Temp.Xdb.Config.Location')]"
+            }
+        },
+        "DownloadDefaultConfigSetForContent":{
+            "Description": "Download Content configset from zookeeper",
+            "Type": "StartProcess",
+            "Params": {
+                "FilePath": "[variable('Solr.CMD.Location')]",
+                "ArgumentList": [
+                    "zk",
+                    "downconfig",
+                    "-z",
+                    "[variable('Zookeeper.Host')]",
+                    "-n",
+                    "[parameter('DefaultConfigSetName')]",
+                    "-d",
+                    "[variable('Temp.Content.Config.Location')]",
+                    "-v"
+                ],
+                "Wait": true,
+                "NoNewWindow": true
+            }
+        },
+        "DownloadDefaultConfigSetForXdb":{
+            "Description": "Download xdb configset from zookeeper",
+            "Type": "StartProcess",
+            "Params": {
+                "FilePath": "[variable('Solr.CMD.Location')]",
+                "ArgumentList": [
+                    "zk",
+                    "downconfig",
+                    "-z",
+                    "[variable('Zookeeper.Host')]",
+                    "-n",
+                    "[parameter('DefaultConfigSetName')]",
+                    "-d",
+                    "[variable('Temp.Xdb.Config.Location')]",
+                    "-v"
+                ],
+                "Wait": true,
+                "NoNewWindow": true
+            }
+        },
+        "AddSchemaUniqueKeyField": {
+            "Description" : "Amends the core managed schema uniqueKey element.",
+            "Type": "SetXml",
+            "Params": [
+                { "FilePath": "[joinpath(variable('Content.Config.Location'), variable('Solr.SchemaFileName'))]", "Xpath":"[variable('Solr.Xpath.SchemaRoot')]", "Element": "field", "Attributes": "[variable('Solr.UniqueField.Attributes')]" }
+            ]
+        },
+        "UpdateSchemaUniqueKey": {
+            "Description" : "Amends the core managed schema uniqueKey element.",
+            "Type": "SetXml",
+            "Params": [
+                { "FilePath": "[joinpath(variable('Content.Config.Location'), variable('Solr.SchemaFileName'))]", "Xpath":"[variable('Solr.Xpath.UniqueKey')]", "Value": "[variable('Solr.UniqueField')]" }
+            ]
+        },
+        "UploadDefaultConfigSetForContent":{
+            "Description": "Upload Content configset to zookeeper",
+            "Type": "StartProcess",
+            "Params": {
+                "FilePath": "[variable('Solr.CMD.Location')]",
+                "ArgumentList": [
+                    "zk",
+                    "upconfig",
+                    "-z",
+                    "[variable('Zookeeper.Host')]",
+                    "-n",
+                    "[variable('SitecoreContentConfigSetName')]",
+                    "-d",
+                    "[variable('Temp.Content.Config.Location')]",
+                    "-v"
+                ],
+                "Wait": true,
+                "NoNewWindow": true
+            }
+        },
+        "UploadDefaultConfigSetForXdb":{
+            "Description": "Upload xdb configset to zookeeper",
+            "Type": "StartProcess",
+            "Params": {
+                "FilePath": "[variable('Solr.CMD.Location')]",
+                "ArgumentList": [
+                    "zk",
+                    "upconfig",
+                    "-z",
+                    "[variable('Zookeeper.Host')]",
+                    "-n",
+                    "[variable('SitecoreXDBConfigSetName')]",
+                    "-d",
+                    "[variable('Temp.Xdb.Config.Location')]",
+                    "-v"
+                ],
+                "Wait": true,
+                "NoNewWindow": true
+            }
+        },
+        "UploadDefaultConfigSetForXdbRebuild":{
+            "Description": "Upload xdb rebuild configset to zookeeper",
+            "Type": "StartProcess",
+            "Params": {
+                "FilePath": "[variable('Solr.CMD.Location')]",
+                "ArgumentList": [
+                    "zk",
+                    "upconfig",
+                    "-z",
+                    "[variable('Zookeeper.Host')]",
+                    "-n",
+                    "[variable('SitecoreXdbRebuildConfigSetName')]",
+                    "-d",
+                    "[variable('Temp.Xdb.Config.Location')]",
+                    "-v"
+                ],
+                "Wait": true,
+                "NoNewWindow": true
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "Parameters": {
+        "SiteName": {
+            "Type": "String",
+            "DefaultValue": ""
+        },
+        "WebRoot": {
+            "Type": "String",
+            "DefaultValue": ""
+        },
+        "XConnectSiteName": {
+            "Type": "String",
+            "DefaultValue": ""
+        }
+    },
+    "Variables": {
+        "Site.PhysicalPath": "[joinpath(parameter('WebRoot'),parameter('SiteName'))]",
+        "XConnect.Root": "[joinpath(parameter('WebRoot'),parameter('XConnectSiteName'))]",
+        "XConnect.IndexerRoot": "[joinpath(variable('XConnect.Root'),'App_Data\\jobs\\continuous\\IndexWorker')]",
+        "XConnect.Models.Root": "[joinpath(variable('Site.PhysicalPath'),'App_Data\\xConnectModels')]",
+        "XConnect.Models.Source": "[joinpath(variable('XConnect.Models.Root'),'*')]",
+        "XConnect.Models.Destination": "[joinpath(variable('XConnect.Root'),'App_Data\\Models')]",
+        "Xconnect.Indexer.Models.Destination": "[joinpath(variable('XConnect.IndexerRoot'),'App_Data\\Models')]",
+        "Models.Exist": "[not(testpath(variable('XConnect.Models.Root')))]"
+    },
+    "Tasks": {
+        "CopyModelsToXConnect": {
+            "Type": "Copy",
+            "Params": {
+                "Source": "[variable('XConnect.Models.Source')]",
+                "Destination": "[variable('XConnect.Models.Destination')]"
+            },
+            "Skip": "[variable('Models.Exist')]"
+        },
+        "CopyModelsToXConnectIndexer": {
+            "Type": "Copy",
+            "Params": {
+                "Source": "[variable('XConnect.Models.Source')]",
+                "Destination": "[variable('XConnect.Indexer.Models.Destination')]"
+            },
+            "Skip": "[variable('Models.Exist')]"
+        }
+    }
+}

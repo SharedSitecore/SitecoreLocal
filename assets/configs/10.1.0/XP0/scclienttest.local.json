@@ -1,0 +1,134 @@
+{
+    "assets":  {
+                   "root":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets",
+                   "configurationRoot":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\configs\\10.1.0\\XP0",
+                   "packageRepository":  "d:\\repos\\docker-images\\build\\packages",
+                   "psRepository":  "https://sitecore.myget.org/F/sc-powershell/api/v2/",
+                   "psRepositoryName":  "SitecoreGallery",
+                   "licenseFilePath":  "d:\\repos\\docker-images\\build\\packages\\license.xml",
+                   "certificatesPath":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\certs",
+                   "installerVersion":  "2.3.0",
+                   "sitecoreVersion":  "10.1.0 rev. 005207",
+                   "identityServerVersion":  "5.1.0 rev. 00290",
+                   "sitecoreazuretoolkit":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\Shared\\sat",
+                   "sharedUtilitiesRoot":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\Shared"
+               },
+    "settings":  {
+                     "site":  {
+                                  "prefix":  "scclienttest",
+                                  "suffix":  ".local",
+                                  "webRoot":  "d:\\webs",
+                                  "hostName":  "scclienttest.local",
+                                  "addSiteBindingWithSSLPath":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\Shared\\assets\\configuration\\add-new-binding-and-certificate.json",
+                                  "additionalBindings":  [
+
+                                                         ]
+                              },
+                     "sql":  {
+                                 "server":  ".",
+                                 "adminUser":  "sa",
+                                 "adminPassword":  "RadicalDaveRocks!",
+                                 "userPassword":  "RadicalDaveRocks!",
+                                 "coreUser":  "coreuser",
+                                 "corePassword":  "RadicalDaveRocks!",
+                                 "masterUser":  "masteruser",
+                                 "masterPassword":  "RadicalDaveRocks!",
+                                 "webUser":  "webuser",
+                                 "webPassword":  "RadicalDaveRocks!",
+                                 "collectionUser":  "collectionuser",
+                                 "collectionPassword":  "RadicalDaveRocks!",
+                                 "reportingUser":  "reportinguser",
+                                 "reportingPassword":  "RadicalDaveRocks!",
+                                 "processingEngineUser":  "processingengineuser",
+                                 "processingEnginePassword":  "RadicalDaveRocks!",
+                                 "processingPoolsUser":  "poolsuser",
+                                 "processingPoolsPassword":  "RadicalDaveRocks!",
+                                 "processingTasksUser":  "tasksuser",
+                                 "processingTasksPassword":  "RadicalDaveRocks!",
+                                 "referenceDataUser":  "referencedatauser",
+                                 "referenceDataPassword":  "RadicalDaveRocks!",
+                                 "securityUser":  "securityuser",
+                                 "securityPassword":  "RadicalDaveRocks!",
+                                 "marketingAutomationUser":  "marketingautomationuser",
+                                 "marketingAutomationPassword":  "RadicalDaveRocks!",
+                                 "formsUser":  "formsuser",
+                                 "formsPassword":  "RadicalDaveRocks!",
+                                 "exmMasterUser":  "exmmasteruser",
+                                 "exmMasterPassword":  "RadicalDaveRocks!",
+                                 "messagingUser":  "messaginguser",
+                                 "messagingPassword":  "RadicalDaveRocks!",
+                                 "minimumVersion":  "13.0.4001"
+                             },
+                     "xConnect":  {
+                                      "configurationPath":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\configs\\10.1.0\\XP0\\xconnect-xp0.json",
+                                      "certificateConfigurationPath":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\configs\\10.1.0\\XP0\\createcert.json",
+                                      "solrConfigurationPath":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\configs\\10.1.0\\XP0\\xconnect-solr.json",
+                                      "packagePath":  "d:\\repos\\docker-images\\build\\packages\\Sitecore 10.1.0 rev. 003498 (OnPrem)_xp0xconnect.scwdp.zip",
+                                      "siteName":  "scclienttest-xc.local",
+                                      "siteRoot":  "d:\\webs\\scclienttest-xc.local"
+                                  },
+                     "sitecore":  {
+                                      "solrConfigurationPath":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\configs\\10.1.0\\XP0\\sitecore-solr.json",
+                                      "singleDeveloperConfigurationPath":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\configs\\10.1.0\\XP0\\XP0-SingleDeveloper.json",
+                                      "sslConfigurationPath":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\configs\\10.1.0\\XP0\\certificates\\sitecore-ssl.json",
+                                      "packagePath":  "d:\\repos\\docker-images\\build\\packages\\Sitecore 10.1.0 rev. 003498 (OnPrem)_single.scwdp.zip",
+                                      "adminPassword":  "b",
+                                      "exmCryptographicKey":  "0x0000000000000000000000000000000000000000000000000000000000000000",
+                                      "exmAuthenticationKey":  "0x0000000000000000000000000000000000000000000000000000000000000000",
+                                      "telerikEncryptionKey":  "PutYourCustomEncryptionKeyHereFrom32To256CharactersLong",
+                                      "rootCertificateName":  "930.dev.local"
+                                  },
+                     "identityServer":  {
+                                            "configurationPath":  "D:\\repos\\sharedsitecore.sitecorelocal\\assets\\configs\\10.1.0\\XP0\\IdentityServer.json",
+                                            "packagePath":  "d:\\repos\\docker-images\\build\\packages\\Sitecore.IdentityServer 5.2.0 rev. 00290 (OnPrem)_identityserver.scwdp.zip",
+                                            "name":  "scclienttest-id.local",
+                                            "url":  "https://scclienttest-id.local",
+                                            "clientSecret":  "scclienttest-id.local"
+                                        },
+                     "solr":  {
+                                  "url":  "https://localhost:8840/solr",
+                                  "root":  "d:\\solr\\Solr-8.4.0",
+                                  "serviceName":  "Solr-8.4.0"
+                              }
+                 },
+    "modules":  [
+                    {
+                        "id":  "xp",
+                        "extract":  true,
+                        "url":  "https://dev.sitecore.net/~/media/88666D3532F24973939C1CC140E12A27.ashx",
+                        "fileName":  "d:\\repos\\docker-images\\build\\packages\\Sitecore 10.1.0 rev. 003498 (WDP XP0 packages).zip",
+                        "source":  "sitecore",
+                        "name":  "Sitecore Experience Platform",
+                        "install":  true,
+                        "databases":  ""
+                    },
+                    {
+                        "id":  "sat",
+                        "name":  "Sitecore Azure Toolkit",
+                        "fileName":  "d:\\repos\\docker-images\\build\\packages\\modules\\Sitecore Azure Toolkit 2.4.0-r02514.1001.zip",
+                        "url":  "https://dev.sitecore.net/~/media/B627BFA7070B40AD854A0FF08719381D.ashx",
+                        "install":  true,
+                        "convert":  false,
+                        "source":  "sitecore",
+                        "databases":  ""
+                    },
+                    {
+                        "id":  "spe",
+                        "name":  "Sitecore PowerShell Extensions",
+                        "fileName":  "d:\\repos\\docker-images\\build\\packages\\modules\\Sitecore.PowerShell.Extensions-6.0.scwdp.zip",
+                        "url":  "https://dev.sitecore.net/~/media/A6BD2B77DEDD44F1BB8E8ED575D24D12.ashx",
+                        "install":  true,
+                        "convert":  false,
+                        "databases":  "master,core"
+                    },
+                    {
+                        "id":  "jss",
+                        "name":  "JavaScript Services",
+                        "fileName":  "d:\\repos\\docker-images\\build\\packages\\modules\\Sitecore JavaScript Services Server for Sitecore 9.2 XP 12.0.0 rev. 190522.scwdp.zip",
+                        "url":  "https://dev.sitecore.net/~/media/1D5D53DE1F4B43E8B3D70E0D0EE40A5D.ashx",
+                        "install":  true,
+                        "convert":  false,
+                        "databases":  "master,core"
+                    }
+                ]
+}

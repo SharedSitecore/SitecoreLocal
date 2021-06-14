@@ -1,0 +1,140 @@
+{
+    "Parameters":  {
+                       "SiteName":  {
+                                        "Type":  "string",
+                                        "DefaultValue":  "",
+                                        "Description":  "The name of the site to be deployed."
+                                    },
+                       "DatabasePrefix":  {
+                                              "Type":  "string",
+                                              "DefaultValue":  "",
+                                              "Description":  "SQL DB Prefix"
+                                          },
+                       "SqlAdminUser":  {
+                                            "Type":  "string",
+                                            "DefaultValue":  "sa",
+                                            "Description":  "The Sql admin user account to use when installing databases."
+                                        },
+                       "SqlAdminPassword":  {
+                                                "Type":  "string",
+                                                "DefaultValue":  "",
+                                                "Description":  "The Sql admin password to use when installing databases."
+                                            },
+                       "SqlServer":  {
+                                         "Type":  "string",
+                                         "DefaultValue":  "",
+                                         "Description":  "The Sql Server where databases will be installed."
+                                     },
+                       "xp:DatabasePrefix":  {
+                                                 "Type":  "string",
+                                                 "Reference":  "DatabasePrefix"
+                                             },
+                       "xp:ModuleConfiguration":  {
+                                                      "DefaultValue":  {
+                                                                           "id":  "xp",
+                                                                           "extract":  true,
+                                                                           "url":  "https://dev.sitecore.net/~/media/88666D3532F24973939C1CC140E12A27.ashx",
+                                                                           "fileName":  "d:\\repos\\docker-images\\build\\packages\\Sitecore 9.3.0 rev. 003498 (WDP XP0 packages).zip",
+                                                                           "source":  "sitecore",
+                                                                           "name":  "Sitecore Experience Platform",
+                                                                           "install":  true,
+                                                                           "databases":  ""
+                                                                       },
+                                                      "Type":  "psobject"
+                                                  },
+                       "xp:SiteName":  {
+                                           "Type":  "string",
+                                           "Reference":  "SiteName"
+                                       },
+                       "xp:SqlAdminPassword":  {
+                                                   "Type":  "string",
+                                                   "Reference":  "SqlAdminPassword"
+                                               },
+                       "xp:SqlAdminUser":  {
+                                               "Type":  "string",
+                                               "Reference":  "SqlAdminUser"
+                                           },
+                       "xp:SqlServer":  {
+                                            "Type":  "string",
+                                            "Reference":  "SqlServer"
+                                        },
+                       "spe:DatabasePrefix":  {
+                                                  "Type":  "string",
+                                                  "Reference":  "DatabasePrefix"
+                                              },
+                       "spe:ModuleConfiguration":  {
+                                                       "DefaultValue":  {
+                                                                            "id":  "spe",
+                                                                            "name":  "Sitecore PowerShell Extensions",
+                                                                            "fileName":  "d:\\repos\\docker-images\\build\\packages\\modules\\Sitecore.PowerShell.Extensions-6.0.scwdp.zip",
+                                                                            "url":  "https://dev.sitecore.net/~/media/A6BD2B77DEDD44F1BB8E8ED575D24D12.ashx",
+                                                                            "install":  true,
+                                                                            "convert":  false,
+                                                                            "databases":  "master,core"
+                                                                        },
+                                                       "Type":  "psobject"
+                                                   },
+                       "spe:SiteName":  {
+                                            "Type":  "string",
+                                            "Reference":  "SiteName"
+                                        },
+                       "spe:SqlAdminPassword":  {
+                                                    "Type":  "string",
+                                                    "Reference":  "SqlAdminPassword"
+                                                },
+                       "spe:SqlAdminUser":  {
+                                                "Type":  "string",
+                                                "Reference":  "SqlAdminUser"
+                                            },
+                       "spe:SqlServer":  {
+                                             "Type":  "string",
+                                             "Reference":  "SqlServer"
+                                         },
+                       "jss:DatabasePrefix":  {
+                                                  "Type":  "string",
+                                                  "Reference":  "DatabasePrefix"
+                                              },
+                       "jss:ModuleConfiguration":  {
+                                                       "DefaultValue":  {
+                                                                            "id":  "jss",
+                                                                            "name":  "JavaScript Services",
+                                                                            "fileName":  "d:\\repos\\docker-images\\build\\packages\\modules\\Sitecore JavaScript Services Server for Sitecore 9.2 XP 12.0.0 rev. 190522.scwdp.zip",
+                                                                            "url":  "https://dev.sitecore.net/~/media/1D5D53DE1F4B43E8B3D70E0D0EE40A5D.ashx",
+                                                                            "install":  true,
+                                                                            "convert":  false,
+                                                                            "databases":  "master,core"
+                                                                        },
+                                                       "Type":  "psobject"
+                                                   },
+                       "jss:SiteName":  {
+                                            "Type":  "string",
+                                            "Reference":  "SiteName"
+                                        },
+                       "jss:SqlAdminPassword":  {
+                                                    "Type":  "string",
+                                                    "Reference":  "SqlAdminPassword"
+                                                },
+                       "jss:SqlAdminUser":  {
+                                                "Type":  "string",
+                                                "Reference":  "SqlAdminUser"
+                                            },
+                       "jss:SqlServer":  {
+                                             "Type":  "string",
+                                             "Reference":  "SqlServer"
+                                         }
+                   },
+    "Variables":  {
+
+                  },
+    "Includes":  {
+                     "xp":  {
+                                "Source":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\Shared\\assets\\configuration\\download-and-install-module.json"
+                            },
+                     "spe":  {
+                                 "Source":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\Shared\\assets\\configuration\\download-and-install-module.json"
+                             },
+                     "jss":  {
+                                 "Source":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\Shared\\assets\\configuration\\download-and-install-module.json"
+                             }
+                 }
+}

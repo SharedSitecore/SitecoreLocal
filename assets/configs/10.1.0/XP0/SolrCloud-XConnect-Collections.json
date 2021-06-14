@@ -1,0 +1,130 @@
+{
+    "Parameters": {
+        "SolrDomain": {
+            "Type": "String",
+            "Description" : "The url/domain for Solr, used to create Self-Signed SSL Certificate",
+            "DefaultValue" : "localhost"
+        },
+        "SolrPort": {
+            "Type": "Int",
+            "Description": "The Solr port.",
+            "DefaultValue": 8840
+        },
+        "CorePrefix": {
+            "Type": "String",
+            "DefaultValue": "sitecore",
+            "Description": "The prefix for each of the created indexes."
+        },
+        "NumShards": {
+            "Type": "Int",
+            "Descrtiption": "The number of shards to be created as part of the collection.",
+            "DefaultValue": 1
+        },
+        "ReplicationFactor": {
+            "Type": "Int",
+            "Description": "The number of replicas to be created for each shard.",
+            "DefaultValue": 1
+        },
+        "MaxShardsPerNode": {
+            "Type": "Int",
+            "Description": "Maximum number of shards per node.",
+            "DefaultValue": 10
+        },
+        "AutoCreateFields": {
+            "Type": "Bool",
+            "Description": "Automatically create fields.",
+            "DefaultValue": false
+        }
+    },
+    "Variables": {
+        "Solr.Api.ContentType": "application/json",
+        "Solr.Base.Uri":    "[concat('https://',parameter('SolrDomain'),':',parameter('SolrPort'))]",
+        "Delete.Collection.Uri" : "[concat(variable('Solr.Base.Uri'), '/solr/admin/collections?action=DELETE')]",
+        "Create.Collection.Uri" : "[concat(variable('Solr.Base.Uri'), '/solr/admin/collections?action=CREATE')]",
+
+        "XdbConfigSet": "[concat(parameter('CorePrefix'), '_xdb_config')]",
+        "XdbRebuildConfigSet": "[concat(parameter('CorePrefix'), '_xdb_rebuild_config')]",
+
+        "Create.Collection.StandardQueryParameters" : "[concat('&numShards=', parameter('NumShards'),'&replicationFactor=', parameter('ReplicationFactor'), '&maxShardsPerNode=', parameter('MaxShardsPerNode'), '&property.update.autoCreateFields=', parameter('AutoCreateFields'))]",
+
+        "Create.Alias.Uri": "[concat(variable('Solr.Base.Uri'), '/solr/admin/collections?action=CREATEALIAS')]",
+        "Delete.Alias.Uri": "[concat(variable('Solr.Base.Uri'), '/solr/admin/collections?action=DELETEALIAS')]",
+
+        "Xdb.Collection.Alias": "[concat(parameter('CorePrefix'), '_xdb')]",
+        "Xdb.Collection.Name":  "[concat(variable('Xdb.Collection.Alias'),'_internal')]",
+        "Xdb.Rebuild.Collection.Alias":           "[concat(variable('Xdb.Collection.Alias'), '_rebuild')]",
+        "Xdb.Rebuild.Collection.Name": "[concat(variable('Xdb.Rebuild.Collection.Alias'), '_internal')]"
+    },
+    "Tasks": {
+        "CreateXdbCollection": {
+            "Description": "Create Xdb Collection",
+            "Type": "HttpRequest",
+            "Params": {
+                "Uri": "[concat(variable('Create.Collection.Uri'), '&name=', variable('Xdb.Collection.Name'), '&collection.configName=', variable('XdbConfigSet'), variable('Create.Collection.StandardQueryParameters'))]",
+                "ContentType": "[variable('Solr.Api.ContentType')]"
+            }
+        },
+        "CreateXdbRebuildCollection": {
+            "Description": "Create Xdb.Rebuild Collection",
+            "Type": "HttpRequest",
+            "Params": {
+                "Uri": "[concat(variable('Create.Collection.Uri'), '&name=', variable('Xdb.Rebuild.Collection.Name'), '&collection.configName=', variable('XdbRebuildConfigSet'), variable('Create.Collection.StandardQueryParameters'))]",
+                "ContentType": "[variable('Solr.Api.ContentType')]"
+            }
+        },
+        "CreateXDBCollectionAlias": {
+            "Description": "Create Xdb Collection Alias",
+            "Type": "HttpRequest",
+            "Params": {
+                "Uri": "[concat(variable('Create.Alias.Uri'), '&name=', variable('Xdb.Collection.Alias'), '&collections=', variable('Xdb.Collection.Name'))]",
+                "ContentType": "[variable('Solr.Api.ContentType')]"
+            }
+        },
+        "CreateXDBReBuildCollectionAlias": {
+            "Description": "Create Xdb Collection Alias",
+            "Type": "HttpRequest",
+            "Params": {
+                "Uri": "[concat(variable('Create.Alias.Uri'), '&name=', variable('Xdb.Rebuild.Collection.Alias'), '&collections=', variable('Xdb.Rebuild.Collection.Name'))]",
+                "ContentType": "[variable('Solr.Api.ContentType')]"
+            }
+        }
+    },
+    "UninstallTasks": {
+        "DeleteXDBCollectionAlias": {
+            "Description": "Delete XDB Alias",
+            "Type": "HttpRequest",
+            "Params": {
+                "Uri": "[concat(variable('Delete.Alias.Uri'), '&name=', variable('Xdb.Collection.Alias'))]",
+                "ContentType": "[variable('Solr.Api.ContentType')]",
+                "ErrorAction": "SilentlyContinue"
+            }
+        },
+        "DeleteXDBRebuildCollectionAlias": {
+            "Description": "Delete XDB Alias",
+            "Type": "HttpRequest",
+            "Params": {
+                "Uri": "[concat(variable('Delete.Alias.Uri'), '&name=', variable('Xdb.Rebuild.Collection.Alias'))]",
+                "ContentType": "[variable('Solr.Api.ContentType')]",
+                "ErrorAction": "SilentlyContinue"
+            }
+        },
+        "DeleteXdbCollection": {
+            "Description": "Delete Xdb Collection",
+            "Type": "HttpRequest",
+            "Params": {
+                "Uri": "[concat(variable('Delete.Collection.Uri'), '&name=', variable('Xdb.Collection.Name'))]",
+                "ContentType": "[variable('Solr.Api.ContentType')]",
+                "ErrorAction": "SilentlyContinue"
+            }
+        },
+        "DeleteXdbRebuildCollection": {
+            "Description": "Delete Xdb.Rebuild Collection",
+            "Type": "HttpRequest",
+            "Params": {
+                "Uri": "[concat(variable('Delete.Collection.Uri'), '&name=', variable('Xdb.Rebuild.Collection.Name'))]",
+                "ContentType": "[variable('Solr.Api.ContentType')]",
+                "ErrorAction": "SilentlyContinue"
+            }
+        }
+    }
+}
