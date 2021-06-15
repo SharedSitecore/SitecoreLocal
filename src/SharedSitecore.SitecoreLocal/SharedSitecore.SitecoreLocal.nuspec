@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>SharedSitecore.SitecoreLocal</id>
+    <version>0.0.0</version>
+    <authors>David Walker, Radical Dave, Sitecore Dave</authors>
+    <description>PowerShell extensions for Local-based Sitecore development</description>
+    <copyright>Copyright (C) by Radical Dave</copyright>
+    <releaseNotes>Version 0.0.0 was modified by david on 01/27/21</releaseNotes>
+    <tags>sitecore local iis powershell solr</tags>
+  </metadata>
+</package>
