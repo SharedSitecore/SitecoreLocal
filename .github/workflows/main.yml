@@ -27,5 +27,5 @@ jobs:
         uses: pcgeek86/publish-powershell-module-action@v19
         id: publish-module
         with:
-          modulePath: src/${{github.workflow}}
+          modulePath: src/${{github.workflow}}/${{github.workflow}}
           NuGetApiKey: ${{ secrets.PS_GALLERY_KEY }}
