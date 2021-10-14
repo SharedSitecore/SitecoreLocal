@@ -1,4 +1,4 @@
-name: SharedSitecore.SitecoreLocal
+name: SitecoreLocal
 
 on:
   push:
