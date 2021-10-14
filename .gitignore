@@ -329,7 +329,8 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
 *.jks
 *.p12
 assets/Shared/sat/
-assets/Shared/sat/tools
+assets/Shared/sat/tools/
