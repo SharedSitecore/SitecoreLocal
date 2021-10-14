@@ -12,7 +12,7 @@ Function Get-SitecoreDownloadFolder {
 		[string]$scope = "User"
 	)
 	if (!$repos) { 
-		$root = if (Get-PSDrive d) { 'd' } else { 'c' }
+		$root = if (Get-PSDrive d -ErrorAction SilentlyContinue) { 'd' } else { 'c' }
 		$repos = "$($root):\repos"
 	}
 	$results = "$repos\docker-images\build\packages"

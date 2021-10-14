@@ -239,7 +239,7 @@ function Install-SitecoreLocal {
 
 		$PSScriptPath = Join-Path $PSScriptRoot $MyInvocation.MyCommand.Name
 		$PSScriptFolder = Split-Path $PSScriptPath -Parent
-		$PSRootDrive = if (Get-PSDrive 'd') { 'd:' } else { 'c:' }
+		$PSRootDrive = if (Get-PSDrive 'd' -ErrorAction SilentlyContinue) { 'd:' } else { 'c:' }
 		$PSRepoPath = Split-Path $PSScriptFolder -Parent
 		if ($PSRepoPath.IndexOf('src') -ne -1) {
 			$PSRepoPath = Split-Path (Split-Path $PSRepoPath -Parent) -Parent

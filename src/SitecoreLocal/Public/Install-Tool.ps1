@@ -117,7 +117,7 @@ Function Install-Tool {
 	if (!$package) { $package = "$packages\$name.zip" }
 	
 	if (!$path) { 
-		$root = if (Get-PSDrive 'd') {'d'} else {'c'}
+		$root = if (Get-PSDrive 'd' -ErrorAction SilentlyContinue) {'d'} else {'c'}
 		if ($name.IndexOf('solr') -eq -1) {
 			$path = "$($root):\tools\$name"
 		} else {

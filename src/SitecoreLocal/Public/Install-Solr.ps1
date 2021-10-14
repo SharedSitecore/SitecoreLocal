@@ -86,7 +86,7 @@ Function Install-Solr {
 	$PSScriptName = ($MyInvocation.MyCommand.Name.Replace(".ps1",""))
 	Write-Verbose (Get-Parameters $MyInvocation.MyCommand.Parameters $PSBoundParameters -Message "$($PSScriptName):start" -Show -Stamp).output
 	if (!$installFolder){
-		$root = if (Get-PSDrive 'd') { 'd' } else { 'c' }
+		$root = if (Get-PSDrive 'd' -ErrorAction SilentlyContinue) { 'd' } else { 'c' }
 		$installfolder = "$($root):\solr"
 	}
 	$solrName = "solr-$solrVersion"
