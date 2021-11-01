@@ -69,11 +69,11 @@ function Install-SitecoreLocal {
 		# Name of new Sitecore Local instance [default=dev]
 		[Parameter(Mandatory=$false)] [string]$name = 'dev',
 		# Version of new Sitecore Local instance [default=9.3.0]
-		#[Parameter(Mandatory=$false)] [string]$version = "9.3.0",
-		[Parameter(Mandatory=$false)] [string]$version = "10.1.0",
+		[Parameter(Mandatory=$false)] [string]$version = "9.3.0",
+		#[Parameter(Mandatory=$false)] [string]$version = "10.1.0",
 		# Version of new Sitecore Local instance [default=9.3.0 rev. 003498]
-		#[Parameter(Mandatory=$false)] [string]$sitecoreVersion = "9.3.0 rev. 003498",
-		[Parameter(Mandatory=$false)] [string]$sitecoreVersion = "10.1.0 rev. 005207",
+		[Parameter(Mandatory=$false)] [string]$sitecoreVersion = "9.3.0 rev. 003498",
+		#[Parameter(Mandatory=$false)] [string]$sitecoreVersion = "10.1.0 rev. 005207",
 		# hostname of new Sitecore Local instance [default=$prefix.$name.$suffix]
 		[Parameter(Mandatory=$false)] [string]$hostname = '',
 		# Prefix of new Sitecore Local instance [default=$version[\.].[name]]
@@ -99,7 +99,7 @@ function Install-SitecoreLocal {
 		
 		# wwwroot - location of new Sitecore Local instance [default=d:\webs,c:\inetpub\wwwroot]
 		[Parameter(Mandatory=$false)]
-		[ValidateScript({Test-Path $_ -PathType 'Container'})]
+		#[ValidateScript({Test-Path $_ -PathType 'Container'})]
 		[alias('www')]
 		[string]$wwwroot = "",
 		
@@ -113,7 +113,7 @@ function Install-SitecoreLocal {
 		
 		# solrService of new Sitecore Local instance [default=8.4.0]
 		[Parameter(Mandatory=$false)]
-		[string]$solrVersion = "8.4.0",
+		[string]$solrVersion = "8.1.1",
 
 		# solrUrl of new Sitecore Local instance [default=localhost]
 		[Parameter(Mandatory=$false)]
@@ -137,14 +137,14 @@ function Install-SitecoreLocal {
 		[alias('xConnectSiteName')]
 		[string]$xcName = "",
 
-		# Root path to assets [default=packages\assets]
+		# Root path to assets [default=repos\docker-images\build\packages]
 		[Parameter(Mandatory=$false, ValueFromPipelineByPropertyName)]
 		[ValidateScript({Test-Path $_ -PathType 'Container'})]
 		[string] $assetsRoot = "",
 		
 		# certificats path for certificates [default=assets\certs]
-		[Parameter(Mandatory=$false)]
-		[ValidateScript({Test-Path $_ -PathType 'Container'})]
+		#[ValidateScript({Test-Path $_ -PathType 'Container'})]
+		[Parameter(Mandatory=$false)]		
 		[string]$certs = "",
 		
 		# packages path for downloaded Sitecore packages [default=\repos\docker-images\build\packages]
@@ -154,7 +154,7 @@ function Install-SitecoreLocal {
 		
 		# LogFolder path for logs [default=.\logs]
 		[Parameter(Mandatory=$false)]
-		[ValidateScript({Test-Path $_ -PathType 'Container'})]
+		#[ValidateScript({Test-Path $_ -PathType 'Container'})]
 		[alias('logs')]
 		[string]$LogFolder = "",
 		
@@ -239,10 +239,16 @@ function Install-SitecoreLocal {
 
 		$PSScriptPath = Join-Path $PSScriptRoot $MyInvocation.MyCommand.Name
 		$PSScriptFolder = Split-Path $PSScriptPath -Parent
-		$PSRootDrive = if (Get-PSDrive 'd') { 'd:' } else { 'c:' }
+		$PSRootDrive = if (Get-PSDrive 'd' -ErrorAction SilentlyContinue) { 'd:' } else { 'c:' }
+
+		$PSReposPath = Join-Path $PSRootDrive "repos"
+		if(!(Test-Path $PSReposPath)){New-Item -Path $PSReposPath -ItemType Directory}
+
 		$PSRepoPath = Split-Path $PSScriptFolder -Parent
 		if ($PSRepoPath.IndexOf('src') -ne -1) {
 			$PSRepoPath = Split-Path (Split-Path $PSRepoPath -Parent) -Parent
+		} else {
+			$PSRepoPath = Join-Path $PSReposPath "SitecoreLocal"
 		}
 
 		if($prefix -eq '$version'){ $prefix = ($version.Replace(".", "")) }
@@ -251,27 +257,37 @@ function Install-SitecoreLocal {
 		if(!$hostname){ $hostname = "$prefix.$suffix" }
 
 		if(!$LogFolder){ $LogFolder = Join-Path $PSRepoPath "logs" }
+		if(!(Test-Path $logFolder)){ New-Item -Path $logFolder -ItemType Directory}
 		$dateFormat = Get-Date -Format "yyyy-MM-dd"
 	`	$logPath = Join-Path $LogFolder "$hostname-$dateFormat.log"
 		if (Test-Path $logPath) {
 			$logPathNew = "$hostname-{0:yyyy-MM-dd-hh-mm}.log" -f ((Get-Date (Get-Item $logPath).CreationTime))
-			if (Test-Path $logPath) {
+			if (Test-Path $logPathNew) {
 				$logPathNew = "$hostname-{0:yyyy-MM-dd-hh-mm-ss}.log" -f ((Get-Date (Get-Item $logPath).CreationTime))
 			}
 			Write-Verbose "Renaming $logPath to $logPathNew"
 			Rename-Item -Path $logPath -NewName $logPathNew -Force
 		}
 		
-		#if ($assets) -check for running as deployed module
 		#ie.. module/script version number in path?
 
-		if ([string]::IsNullOrEmpty($packages)) { $packages = Join-Path $PSRootDrive 'repos\docker-images\build\packages' }
-		if ([string]::IsNullOrEmpty($assetsRoot)) { $assetsRoot = Join-Path $PSRepoPath 'assets' }
-		if ([string]::IsNullOrEmpty($ConfigurationRoot)) { $ConfigurationRoot = Join-Path $assetsRoot "configs\$version\$ConfigurationTemplate" }
-		if ([string]::IsNullOrEmpty($ConfigurationFileName)) { $ConfigurationFileName = "$hostname.json" }
-		if ([string]::IsNullOrEmpty($ConfigurationTemplateFile)) { $ConfigurationTemplateFile = "$PSScriptPath.json"}
-		if ([string]::IsNullOrEmpty($certs)) { $certs = Join-Path $assetsRoot "certs" }
-		if ([string]::IsNullOrEmpty($assetsJsonPath)) { $assetsJsonPath = Join-Path $ConfigurationRoot 'assets-basic.json' }
+		if([string]::IsNullOrEmpty($packages)) {
+			if(!(Test-Path $PSReposPath)){New-Item -Path $PSReposPath -ItemType Directory}
+			$dockerImagesPath = Join-Path $PSReposPath "docker-images"
+			if(!(Test-Path $dockerImagesPath)){New-Item -Path $dockerImagesPath -ItemType Directory}
+			$dockerImagesBuildPath = Join-Path $dockerImagesPath "build"
+			if(!(Test-Path $dockerImagesBuildPath)){New-Item -Path $dockerImagesPath -ItemType Directory}
+			$packagesPath = Join-Path $dockerImagesBuildPath "packages"
+			if(!(Test-Path $packagesPath)){New-Item -Path $packagesPath -ItemType Directory}
+			$packages = $packagesPath
+		}
+		if([string]::IsNullOrEmpty($assetsRoot)) {$assetsRoot = Join-Path $PSRepoPath 'assets'}		
+		if([string]::IsNullOrEmpty($ConfigurationRoot)) { $ConfigurationRoot = Join-Path $assetsRoot "configs\$version\$ConfigurationTemplate" }
+		if([string]::IsNullOrEmpty($ConfigurationFileName)) { $ConfigurationFileName = "$hostname.json" }
+		if([string]::IsNullOrEmpty($ConfigurationTemplateFile)) { $ConfigurationTemplateFile = "$PSScriptPath.json"}
+		if([string]::IsNullOrEmpty($certs)) { $certs = Join-Path $assetsRoot "certs" }		
+		if(!(Test-Path $certs)){ New-Item -Path $certs -ItemType Directory}
+		if([string]::IsNullOrEmpty($assetsJsonPath)) { $assetsJsonPath = Join-Path $ConfigurationRoot 'assets-basic.json' }
 		
 		if(!$LicenseFile) {	$LicenseFile = "$packages\license.xml" }
 		if(!$RecoveryUrl){ $RecoveryUrl = "https://$hostname" }
@@ -279,26 +295,21 @@ function Install-SitecoreLocal {
 		if(!$SitecoreIdentityAuthority){ $SitecoreIdentityAuthority = "https://$idName" }		
 		if(!$xcName){ $xcName = "$prefix-xc.$suffix" }
 		if(!$XConnectCollectionService){ $XConnectCollectionService = "https://$xcName" }
-		if (!$solrService) { $solrService = "Solr-$solrVersion" }
-		if (!$solrRoot) { $solrRoot = Join-Path $PSRootDrive "\solr\$solrService" }
-		if (!$solrPort) { $solrPort = "8" + $solrVersion.Replace(".", "") }
-		if (!$solrUrl) { $solrUrl = "https://$($solrHost):$solrPort/solr" }
-		if (!$wwwroot) {
-			if ($PSRootDrive -ne 'c:') {
+		if(!$solrService) { $solrService = "Solr-$solrVersion" }
+		if(!$solrRoot) { $solrRoot = Join-Path $PSRootDrive "\tools\solr\$solrService" }
+		if(!$solrPort) { $solrPort = "8" + $solrVersion.Replace(".", "") }
+		if(!$solrUrl) { $solrUrl = "https://$($solrHost):$solrPort/solr" }
+		if(!$wwwroot) {
+			write-Verbose 'wwwroot not provided.'
+			if ($PSRootDrive -eq 'c:') {
+				$wwwroot = Join-Path $PSRootDrive 'inetpub\wwwroot'
+			} else {
 				$wwwroot = Join-Path $PSRootDrive 'webs'
 				if (!(Test-Path $wwwroot)) {
 					$wwwroot = Join-Path $PSRootDrive 'inetpub\wwwroot'
-					if (!(Test-Path $wwwroot)) {
-						$wwwroot = ''
-					}
 				}
 			}
 		}
-		if (!$wwwroot) { $wwwroot = Join-Path 'c:' 'inetpub\wwwroot' }
-		if (!(Test-Path $wwwroot)) {
-			Write-Error "MISSING WWWROOT:$wwwroot"
-			Exit 1
-		}		
 	}
 	process {
 		try {
@@ -307,7 +318,12 @@ function Install-SitecoreLocal {
 				$parametersUpdated = Get-Parameters $MyInvocation.MyCommand.Parameters $PSBoundParameters "$PSScriptName started" -Show
 				Write-Host $parametersUpdated.output -ForegroundColor Green
 				$parameters = $parametersUpdated.parameters
-			
+							
+				if (!(Test-Path $wwwroot)) {
+					Write-Verbose 'wwwroot not found - creating:$($wwwroot)'
+					New-Item -Path $wwwroot -ItemType Directory
+				}
+
 				if (!(Test-Path $assetsRoot)) {
 					mkdir $assetsRoot #| Out-Null
 				}
@@ -335,24 +351,32 @@ function Install-SitecoreLocal {
 					$scPkgItem = Get-ChildItem "$packages\Sitecore $version rev. * (OnPrem)_single.scwdp.zip" -ErrorAction SilentlyContinue
 					if ($scPkgItem) {
 						$scPkg = $scPkgItem.FullName 
-					} else {
-						Write-Error "File not found - $packages\Sitecore $version rev. * (OnPrem)_single.scwdp.zip"
 					}
 				}
+				if(!(Test-Path $scPkgItem)) {
+					Write-Error "File not found - $packages\Sitecore $version rev. * (OnPrem)_single.scwdp.zip" -ErrorAction Stop
+				}
+
 				$IdentityServerVersion = ''
 				if (!$IdentityServerVersion) {
-					if ($version -eq "10.1.0") {
+					if ($version -eq "9.3.0") {
+						$IdentityServerVersion = "4.0.0 rev. 00257"
+					} elseif ($version -eq "10.1.0") {
 						$IdentityServerVersion = "5.1.0 rev. 00290"
 					}
+				}
+				if (!$IdentityServerVersion) {
+					Write-Error "IdentityServerVersion not determined" -ErrorAction Stop
 				}
 				Write-Verbose "Looking for $packages\Sitecore.IdentityServer $IdentityServerVersion (OnPrem)_identityserver.scwdp.zip"
 				if([string]::IsNullOrEmpty($idPkg)){
 					$idPkgItem = Get-ChildItem "$packages\Sitecore.IdentityServer $IdentityServerVersion (OnPrem)_identityserver.scwdp.zip" -ErrorAction SilentlyContinue
 					if ($idPkgItem) {
-						$idPkg = $idPkgItem.FullName 
-					} else {
-						Write-Error "File not found - $packages\Sitecore.IdentityServer $IdentityServerVersion (OnPrem)_identityserver.scwdp.zip"
+						$idPkg = $idPkgItem.FullName
 					}
+				}
+				if(!(Test-Path $idPkgItem)) {
+					Write-Error "File not found - $packages\Sitecore.IdentityServer $IdentityServerVersion (OnPrem)_identityserver.scwdp.zip" -ErrorAction Stop
 				}
 
 				Write-Verbose "Looking for $packages\Sitecore $version rev. * (OnPrem)_xp0xconnect.scwdp.zip"
@@ -361,16 +385,12 @@ function Install-SitecoreLocal {
 					if ($xcPkgItem) {
 						$xcPkg = $xcPkgItem.FullName
 					} else {
-						Write-Error "File not found - $packages\Sitecore $version rev. * (OnPrem)_xp0xconnect.scwdp.zip"
+						Write-Error "File not found - $packages\Sitecore $version rev. * (OnPrem)_xp0xconnect.scwdp.zip" -ErrorAction Stop
 					}
-				}	
-				#$scPkgItem = Get-ChildItem -Path "$packages\Sitecore $version rev. * (WDP XP0 packages).zip"
-				#if(!$scPkgItem){
-				#	Write-Error "You must download: Sitecore $version rev. * (WDP XP0 packages).zip in: $packages"
-				#	exit 1
-				#} else {
-				#	$scPkg = $scPkgItem.FullName
-				#}
+				}
+				if(!(Test-Path $xcPkgItem)) {
+					Write-Error "You must download: Sitecore $version rev. * (WDP XP0 packages).zip in: $packages" -ErrorAction Stop -ErrorAction Stop
+				}
 				
 				$configPkgItem = Get-ChildItem -Path "$packages\XP0 Configuration files $version rev. *.zip"
 				if(!$configPkgItem){
@@ -383,8 +403,7 @@ function Install-SitecoreLocal {
 				}
 				
 				if(!$configPkgItem){
-					Write-Error "Error extracting $scPkg"
-					Exit 1
+					Write-Error "Error extracting $scPkg" -ErrorAction Stop
 				} else {
 					$configPkg = $configPkgItem.FullName
 				}
@@ -419,21 +438,24 @@ function Install-SitecoreLocal {
 
 					Write-Host 'Updating configs...'
 					Set-SitecoreLocalOverrides @parameters
+					Write-Host 'Updating configs...completed *******************'
 				} else {
 					Write-Host "Existing config:$ConfigurationFile"
 				}				
 				
+				Write-Host "Loading config:$ConfigurationFile"
 				$config = Get-Content -Raw $ConfigurationFile | ConvertFrom-Json
 				if (!$config) {
 					throw "Error trying to load configuration!"
 				}
-				
+				Write-Host "Loaded config:$ConfigurationFile"
 
 				#Set-SitecoreDockerLicense - use env like docker?
 				
 				if ($Force) {
 					#todo: add a check?
-					#Remove-SitecoreLocal $ConfigurationFile
+					#Remove-SitecoreLocalDb $ConfigurationFile
+					Write-Host "Running Remove-SitecoreLocalDb:$ConfigurationFile"
 					Remove-SitecoreLocalDb $ConfigurationFile
 				}
 				
@@ -470,10 +492,7 @@ function Install-SitecoreLocal {
 				#Write-Verbose 'Setting/Checkings paths...'
 				
 				
-				#Write-Verbose "resourcePath:$resourcePath"
-				#$sharedResourcePath = Join-Path $assetsConfig.sharedUtilitiesRoot "assets\configuration"
-				#Write-Verbose "sharedResourcePath:$sharedResourcePath"
-
+			
 
 				$site = $config.settings.site
 				$sql = $config.settings.sql
@@ -484,22 +503,31 @@ function Install-SitecoreLocal {
 				
 				$assets = $config.assets
 				
-				
-				Write-Verbose 'Installing pre-reqs......'
-
-				
-				
-				Import-Module (Join-Path $assets.sharedUtilitiesRoot "assets\modules\SharedInstallationUtilities\SharedInstallationUtilities.psm1") -Force
-
-				Install-SitecoreLocalPrerequisites $solrVersion $ConfigurationFile			
+				#Write-Verbose "resourcePath:$resourcePath"
+				Write-Host "assets.sharedUtilitiesRoot:$($assets.sharedUtilitiesRoot)"
+				$sharedResourcePath = Join-Path $assets.sharedUtilitiesRoot "assets\configuration"
+				Write-Host "sharedResourcePath:$sharedResourcePath"
+	
+				Write-Host 'Installing pre-reqs......'
+				try {
+					Import-Module (Join-Path $assets.sharedUtilitiesRoot "assets\modules\SharedInstallationUtilities\SharedInstallationUtilities.psm1") -Force
+					Install-SitecoreLocalPrerequisites $solrVersion $ConfigurationFile $logFolder $sharedResourcePath
+				}
+				catch {
+					Write-Error "ERROR:$_" -InformationVariable results
+				}
+				Write-Host 'Prerequisites installed.'
+				Write-Verbose 'Prerequisites installed.'
 
 				$parametersResults = Get-Parameters $MyInvocation.MyCommand.Parameters $PSBoundParameters "$hostname - $version" -Show
 				Write-Host $($parametersResults.output) -ForegroundColor Green
 				
+				Write-Host 'Checking IIS/Starting w3svc...'
 				#confirm IIS is running & may not be if playing with https://github.com/SitecoreDave/SharedSitecore.SitecoreDocker
 				Start-Service w3svc
 
-				#Install-SingleDeveloper						
+				#Install-SingleDeveloper
+				Write-Host 'Install-SingleDeveloper $($sitecore.singleDeveloperConfigurationPath): started'
 				#IdentityServerName = $idName
 				$singleDeveloperParams = @{
 					Path                           = $sitecore.singleDeveloperConfigurationPath

@@ -97,7 +97,7 @@ Function Get-Assets {
 
 		$package = $modules | Where-Object { $_.id -eq "xp" }
 
-		Write-Host ("Downloading {0}  -  if required" -f $package.name )
+		Write-Host ("Downloading {0} - if required" -f $package.name )
 
 		$destination = $package.fileName
 

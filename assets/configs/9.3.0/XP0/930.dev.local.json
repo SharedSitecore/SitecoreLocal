@@ -1,25 +1,25 @@
 {
     "assets":  {
-                   "root":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets",
-                   "configurationRoot":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\configs\\9.3.0\\XP0",
+                   "root":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets",
+                   "configurationRoot":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\configs\\9.3.0\\XP0",
                    "packageRepository":  "d:\\repos\\docker-images\\build\\packages",
                    "psRepository":  "https://sitecore.myget.org/F/sc-powershell/api/v2/",
                    "psRepositoryName":  "SitecoreGallery",
                    "licenseFilePath":  "d:\\repos\\docker-images\\build\\packages\\license.xml",
-                   "certificatesPath":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\certs",
-                   "installerVersion":  "2.2.0",
+                   "certificatesPath":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\certs",
+                   "installerVersion":  "2.3.0",
                    "sitecoreVersion":  "9.3.0 rev. 003498",
                    "identityServerVersion":  "4.0.0 rev. 00257",
-                   "sitecoreazuretoolkit":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\Shared\\sat",
-                   "sharedUtilitiesRoot":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\Shared"
+                   "sitecoreazuretoolkit":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\Shared\\sat",
+                   "sharedUtilitiesRoot":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\Shared"
                },
     "settings":  {
                      "site":  {
-                                  "prefix":  "930.dev",
-                                  "suffix":  ".local",
+                                  "prefix":  "930",
+                                  "suffix":  "dev.local",
                                   "webRoot":  "d:\\webs",
                                   "hostName":  "930.dev.local",
-                                  "addSiteBindingWithSSLPath":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\Shared\\assets\\configuration\\add-new-binding-and-certificate.json",
+                                  "addSiteBindingWithSSLPath":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\Shared\\assets\\configuration\\add-new-binding-and-certificate.json",
                                   "additionalBindings":  [
 
                                                          ]
@@ -60,17 +60,17 @@
                                  "minimumVersion":  "13.0.4001"
                              },
                      "xConnect":  {
-                                      "configurationPath":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\xconnect-xp0.json",
-                                      "certificateConfigurationPath":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\createcert.json",
-                                      "solrConfigurationPath":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\xconnect-solr.json",
+                                      "configurationPath":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\xconnect-xp0.json",
+                                      "certificateConfigurationPath":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\createcert.json",
+                                      "solrConfigurationPath":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\xconnect-solr.json",
                                       "packagePath":  "d:\\repos\\docker-images\\build\\packages\\Sitecore 9.3.0 rev. 003498 (OnPrem)_xp0xconnect.scwdp.zip",
-                                      "siteName":  "930.dev-xc.local",
-                                      "siteRoot":  "d:\\webs\\930.dev-xc.local"
+                                      "siteName":  "930-xc.dev.local",
+                                      "siteRoot":  "d:\\webs\\930-xc.dev.local"
                                   },
                      "sitecore":  {
-                                      "solrConfigurationPath":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\sitecore-solr.json",
-                                      "singleDeveloperConfigurationPath":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\XP0-SingleDeveloper.json",
-                                      "sslConfigurationPath":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\certificates\\sitecore-ssl.json",
+                                      "solrConfigurationPath":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\sitecore-solr.json",
+                                      "singleDeveloperConfigurationPath":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\XP0-SingleDeveloper.json",
+                                      "sslConfigurationPath":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\certificates\\sitecore-ssl.json",
                                       "packagePath":  "d:\\repos\\docker-images\\build\\packages\\Sitecore 9.3.0 rev. 003498 (OnPrem)_single.scwdp.zip",
                                       "adminPassword":  "b",
                                       "exmCryptographicKey":  "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -79,15 +79,15 @@
                                       "rootCertificateName":  "930.dev.local"
                                   },
                      "identityServer":  {
-                                            "configurationPath":  "D:\\repos\\SharedSitecore.SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\IdentityServer.json",
+                                            "configurationPath":  "D:\\repos\\SharedSitecore\\SitecoreLocal\\assets\\configs\\9.3.0\\XP0\\IdentityServer.json",
                                             "packagePath":  "d:\\repos\\docker-images\\build\\packages\\Sitecore.IdentityServer 4.0.0 rev. 00257 (OnPrem)_identityserver.scwdp.zip",
-                                            "name":  "930.dev-id.local",
-                                            "url":  "https://930.dev-id.local",
-                                            "clientSecret":  "930.dev-id.local"
+                                            "name":  "930-id.dev.local",
+                                            "url":  "https://930-id.dev.local",
+                                            "clientSecret":  "930-id.dev.local"
                                         },
                      "solr":  {
                                   "url":  "https://localhost:8811/solr",
-                                  "root":  "d:\\solr\\Solr-8.1.1",
+                                  "root":  "d:\\tools\\solr\\Solr-8.1.1",
                                   "serviceName":  "Solr-8.1.1"
                               }
                  },

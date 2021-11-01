@@ -72,7 +72,7 @@ Function Install-Tool {
 		# Version of Tool
 		[string]$version,
 
-		# Path where Tool is Installed [default=d:\tools\$name]
+		# Path where Tool is Installed [default=d:\tools]
         [string]$path,
 
 		# Name of package [default=name.zip]
@@ -114,44 +114,38 @@ Function Install-Tool {
 	
 	if (!$packages) { $packages = Get-SitecoreDownloadFolder }
 
-	if (!$package) { $package = "$packages\$name.zip" }
+	if (!$package) { $package = "$packages\$name.zip" }0
 	
 	if (!$path) { 
-		$root = if (Get-PSDrive 'd') {'d'} else {'c'}
-		if ($name.IndexOf('solr') -eq -1) {
-			$path = "$($root):\tools\$name"
-		} else {
-			$path = "$($root):\solr\$name"
-		}
+		$root = if (Get-PSDrive 'd' -ErrorAction SilentlyContinue) {'d'} else {'c'}
+		$path = "$($root):\tools\$name"
 	}
 	
     if(!(Test-Path -Path "$path"))
     {
-		Write-Host " $PATH Test failed. Install:$name" -InformationVariable results -ForegroundColor Green	
+		Write-Host "$($name) not found at $path. Installing..." -InformationVariable results -ForegroundColor Green	
         if(!(Test-Path -Path $package))
         {
-			if ($name -ne 'java') {
-				Write-Host "$PSScriptName $name:Start-BitsTransfer - start"
-				Start-BitsTransfer -Source $source -Destination $package
-			} else {
+			#if ($name -ne 'java') {
+			#	Write-Host "$PSScriptName $name:Start-BitsTransfer - start"
+			#	Start-BitsTransfer -Source $source -Destination $package
+			#} else {
 				#$source = "http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-windows-i586.exe"
 				$destination = $package
 				$client = new-object System.Net.WebClient 
 				$cookie = "oraclelicense=accept-securebackup-cookie"
 				$client.Headers.Add([System.Net.HttpRequestHeader]::Cookie, $cookie) 
 				$client.downloadFile($source, $destination)
-			}
+			#}
         }
 
 		if (!$task) {
-			if ($name.StartsWith('solr')) {
-				$path = $path | Split-Path -Parent
-			}
-			Write-Host "Extracting $name to $path..." -InformationVariable results	
-			Expand-Archive $package -DestinationPath $path
+			$destination = Split-Path $path -parent
+			Write-Host "Extracting $name to $destination" -InformationVariable results	
+			Expand-Archive $package -DestinationPath $destination
 		} else {
-			Write-Host "Extracting $name to $packages\$name..."
-			Expand-Archive $package -DestinationPath "$packages\$name"
+			Write-Host "Extracting $name to $packages..."
+			Expand-Archive $package -DestinationPath "$packages"
 
 			#$destination86 = "C:\vagrant\$JDK_VER-x64.exe"
 

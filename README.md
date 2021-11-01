@@ -1,8 +1,6 @@
-# SitecoreLocal
+# SharedSitecore.SitecoreLocal
 
 PowerShell extensions for Local-based Sitecore development
-
-Having went through several renames and iterations, it is now ready for release
 
 Greatly inspired by: 
 

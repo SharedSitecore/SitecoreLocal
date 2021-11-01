@@ -65,14 +65,14 @@ Function Enable-ContainedDatabases {
 		[Parameter(Mandatory=$false, Position=0)] [string]$server = '.',
 		[Parameter(Mandatory=$false, Position=1)] [string]$user = 'sa',
 		[Parameter(Mandatory=$false, Position=2)] [string]$password,
-		[Parameter(Mandatory=$false, Position=2)] [string]$logs = '',
-		[Parameter(Mandatory=$false, Position=2)] [string]$sharedResourcePath
+		[Parameter(Mandatory=$false, Position=3)] [string]$logs = '',
+		[Parameter(Mandatory=$false, Position=4)] [string]$sharedResourcePath
 	)
 	#Enable Contained Databases
 	Write-Host "Enable contained databases" -ForegroundColor Green
 	$params = @{
-		Path             = (Join-Path $$sharedResourcePath "enable-contained-databases.json")
-		SqlServer        = $sserver
+		Path             = (Join-Path "$($sharedResourcePath)/assets/configuration" "enable-contained-databases.json")
+		SqlServer        = $server
 		SqlAdminUser     = $user
 		SqlAdminPassword = $password
 	}

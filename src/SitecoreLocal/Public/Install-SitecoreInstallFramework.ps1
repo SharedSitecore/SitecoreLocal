@@ -90,8 +90,12 @@ function Install-SitecoreInstallFramework {
 
 	#Install SIF
 	Write-Host "Installing the Sitecore Install Framework, version $($installerVersion)" -ForegroundColor Green
-	Install-Module SitecoreInstallFramework -RequiredVersion $installerVersion -Repository $psRepositoryName -Scope CurrentUser
+	
+	#Install-Module SitecoreInstallFramework -RequiredVersion $installerVersion -Repository $psRepositoryName -Scope CurrentUser
+	Install-ModuleIfMissing SitecoreInstallFramework
 	Import-Module SitecoreInstallFramework -RequiredVersion $installerVersion -InformationVariable results -Scope Global -Force
+	
+
 	#Import-SitecoreInstallFramework -version $assets.installerVersion
 	
 	#Install versus Import! .. see install-xc0.ps1 for code to update/patch SIF 2.1.0

@@ -87,8 +87,8 @@ function Set-SitecoreLocal
 
         [string] $assetsRoot,
         [string] $packageRepository,
-        #[string] $version = "9.3.0",
-        [string] $version = "10.1.0",
+        [string] $version = "9.3.0",
+        #[string] $version = "10.1.0",
 
         # hostname of new Sitecore Local instance [default=$prefix+$suffix]
 		[Parameter(Mandatory=$false)] [string]$hostname = '',
@@ -145,7 +145,7 @@ function Set-SitecoreLocal
 
     #$version = $sitecoreversion.Substring(0, $sitecoreVersion.IndexOf(" ") - 1).Replace(".", "")
     #$version = "9.3.0"
-    $version = "10.1.0"
+    #$version = "10.1.0"
 
     Write-Host "Setting default 'Assets and prerequisites' parameters"
 
@@ -156,8 +156,8 @@ function Set-SitecoreLocal
     $assets.configurationRoot = Join-Path $assets.root "configs\$version\$ConfigurationTemplate"
     Write-Host "Setting assets.configurationRoot:$($assets.configurationRoot)"
 
-    #$assets.sitecoreVersion = "9.3.0 rev. 003498"
-    $assets.sitecoreVersion = "10.1.0 rev. 005207"
+    $assets.sitecoreVersion = "9.3.0 rev. 003498"
+    #$assets.sitecoreVersion = "10.1.0 rev. 005207"
 
     if (![string]::IsNullOrEmpty($packageRepository)){
         $assets.packageRepository = $packageRepository
@@ -179,8 +179,8 @@ function Set-SitecoreLocal
 
 	$assets.licenseFilePath = Join-Path $assets.packageRepository "license.xml"
 
-    #$assets.identityServerVersion = "4.0.0 rev. 00257"
-    $assets.identityServerVersion = "5.1.0 rev. 00290"
+    $assets.identityServerVersion = "4.0.0 rev. 00257"
+    #$assets.identityServerVersion = "5.1.0 rev. 00290"
 
 
     $assets.certificatesPath = Join-Path $assets.root "certs"
@@ -197,11 +197,12 @@ function Set-SitecoreLocal
     $site.hostName = $json.settings.site.prefix + $json.settings.site.suffix
     $site.addSiteBindingWithSSLPath = (Get-ChildItem $assets.sharedUtilitiesRoot -filter "add-new-binding-and-certificate.json" -Recurse).FullName
 
-
+    $basePwd = "$((Get-ComputerDescription).Replace(' ',''))"
+    Write-Host "basePwd:$($basePwd)"
     Write-Host "Setting default 'SQL' parameters"
     $sql = $json.settings.sql
     # SQL Settings
-    $SqlSaPassword = "$((Get-ComputerDescription).Replace(' ',''))Rocks!"
+    $SqlSaPassword = "$($basePwd)Rocks!"
     $SqlStrongPassword = $SqlSaPassword # Used for all other services
     
     $sql.server = "."
@@ -270,9 +271,9 @@ function Set-SitecoreLocal
     Write-Host "Setting default 'Solr' parameters"
     # Solr Parameters
     $solr = $json.settings.solr
-    $solr.url = "https://localhost:8840/solr"
-    $solr.root = "c:\solr\solr-8.4.0"
-    $solr.serviceName = "Solr-8.4.0"
+    #$solr.url = "https://localhost:8840/solr"
+    #$solr.root = "c:\solr\solr-8.4.0"
+    #$solr.serviceName = "Solr-8.4.0"
 
     Write-Verbose "Saving: $json"
     Set-Content $ConfigurationFile (ConvertTo-Json -InputObject $json -Depth 6 )
